@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<style type="text/css">
+		#map {
+			width: 100%;
+			height: 100%;
+			border: 0px;
+			padding: 0px;
+		}
+		.olControlAttribution {
+			text-align: center;
+			width: 100%;
+			bottom: 0px;
+			right: 0px;
+			padding-left: 4px; padding-right: 4px;
+			padding-top: 0px;  padding-bottom: 0px;
+			background-image: url(img/errorbackground_25.png);
+			background-repeat: repeat;
+			text-shadow: #DDDDDD 1px 1px; 
+		}
+		body {
+			margin: 1px;
+		}
+	</style>
+	<script src="OpenLayers.js"></script>
+	<script type="text/javascript">
+            var map, lonLat, layerMarkers, marker;
+            function init() {
+
+            map = new OpenLayers.Map("mapdiv", { controls:[new OpenLayers.Control.MouseDefaults(),
+                                                           new OpenLayers.Control.Attribution()]});
+            layerMapnik = new OpenLayers.Layer.OSM("osm");
+            layerMapnik.attribution = "<div id=\"error\"></div>";
+            layerMapnik.transitionEffect = "resize";
+            map.addLayer(layerMapnik);
+ 
+            lonLat = new OpenLayers.LonLat( 10.9206, 50.69 )
+                .transform(
+                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                    map.getProjectionObject() // to Spherical Mercator Projection
+                );
+            var zoom = 12;
+            map.setCenter (lonLat, zoom);
+            }
+
+            function newPos(lon, lat) {
+                lonLat = new OpenLayers.LonLat( lon, lat )
+                    .transform(
+                        new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                        map.getProjectionObject() // to Spherical Mercator Projection
+                    );
+                if (! layerMarkers) {
+                    layerMarkers = new OpenLayers.Layer.Markers( "Markers" );
+                    map.addLayer(layerMarkers);
+                } else {
+                    layerMarkers.removeMarker(marker);
+                }
+                marker = new OpenLayers.Marker(lonLat)
+                layerMarkers.addMarker(marker);
+//			marker = new OpenLayers.Marker(lonLat, icon);
+//			layerMarkers.addMarker(marker);
+                map.panTo(lonLat);
+//			var offset = new OpenLayers.Pixel(-(markersize.w/2), -markersize.h);
+//			var icon = new OpenLayers.Icon("marker.png", markersize, offset);
+//			layerMarkers.removeMarker(marker);
+//			marker = new OpenLayers.Marker(lonLat, icon);
+//			layerMarkers.addMarker(marker);
+          }
+
+	</script>
+</head>
+<body onload="init()">
+<div id="mapdiv"></div>
+</body>
+</html>
