@@ -13,8 +13,7 @@ and modify it for their needs.
 You can try to send me pull requests, but I can not promise that I will
 review and merge them.
 
+************************
 
 You may find the Code on
-========================
-
 <https://github.com/Flyser/wo-ist-der-eismann/issues>
